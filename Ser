@@ -1,0 +1,44 @@
+import sys
+
+def solve():
+    # Read all inputs from standard input
+    input = sys.stdin.read
+    data = input().split()
+    
+    if not data:
+        return
+
+    n = int(data[0])
+    cards = [int(x) for x in data[1:n+1]]
+    
+    # Initialize pointers for the leftmost and rightmost cards
+    left = 0
+    right = n - 1
+    
+    sereja_score = 0
+    dima_score = 0
+    
+    # Sereja moves first (turn = 0 is Sereja, turn = 1 is Dima)
+    turn = 0 
+    
+    while left <= right:
+        # Both players greedily choose the larger card between left and right
+        if cards[left] >= cards[right]:
+            chosen_card = cards[left]
+            left += 1
+        else:
+            chosen_card = cards[right]
+            right -= 1
+            
+        # Allocate the score to the current player
+        if turn == 0:
+            sereja_score += chosen_card
+            turn = 1  # Switch to Dima
+        else:
+            dima_score += chosen_card
+            turn = 0  # Switch to Sereja
+            
+    print(f"{sereja_score} {dima_score}")
+
+if __name__ == '__main__':
+    solve()
